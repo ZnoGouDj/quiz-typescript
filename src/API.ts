@@ -4,7 +4,7 @@ export type Question = {
   category: string;
   correct_answers: string;
   difficulty: string;
-  incorrect_answers: string[];
+
   question: string;
   type: string;
 };
@@ -27,8 +27,10 @@ export const fetchQuizQuestions = async (amount: number, difficulty: Difficulty)
   });
   const data = await response.json();
   console.log(data);
-  return data.results.map((question: Question) => ({
+  console.log(data.results);
+  // return data;
+  return data.map((question: Question) => ({
     ...question,
-    answer: shuffleArray([...question.incorrect_answers, question.correct_answers]),
+    answer: shuffleArray([question.correct_answers]),
   }));
 };
