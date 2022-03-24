@@ -2,7 +2,7 @@ import { shuffleArray } from './utils';
 
 export type Question = {
   category: string;
-  correct_answers: string;
+  correct_answer: string;
   difficulty: string;
 
   question: string;
@@ -26,11 +26,9 @@ export const fetchQuizQuestions = async (amount: number, difficulty: Difficulty)
     },
   });
   const data = await response.json();
-  console.log(data);
-  console.log(data.results);
-  // return data;
+
   return data.map((question: Question) => ({
     ...question,
-    answer: shuffleArray([question.correct_answers]),
+    answer: shuffleArray([question.correct_answer]),
   }));
 };

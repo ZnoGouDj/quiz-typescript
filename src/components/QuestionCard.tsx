@@ -1,44 +1,60 @@
 import React from 'react';
+// Types
+import { AnswerObject } from '../App';
+// Styles
+import { Wrapper, ButtonWrapper } from './QuestionCard.styles';
 
 type Props = {
   question: string;
   answers: string[];
-  callback: any;
-  userAnswer: any;
+  callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  userAnswer: AnswerObject | undefined;
   questionNr: number;
   totalQuestions: number;
+  correct: boolean;
+  isClicked: boolean;
 };
 
-const QuestionCard: React.FC<Props> = ({ question, answers, callback, userAnswer, questionNr, totalQuestions }) => {
-  console.log(Object.entries(answers).map(answer => answer));
+const QuestionCard: React.FC<Props> = ({
+  question,
+  answers,
+  callback,
+  userAnswer,
+  questionNr,
+  totalQuestions,
+  correct,
+  isClicked,
+}) => {
+  console.table([
+    ['question', question],
+    ['answers', answers],
+    ['callback', callback],
+    ['userAnswer', userAnswer],
+    ['questionNr', questionNr],
+    ['totalQuestions', totalQuestions],
+    ['correct', correct],
+    ['isClicked', isClicked],
+  ]);
 
-  console.log('KEY FUCK', answers);
   return (
-    <div>
+    <Wrapper>
       <p className="number">
         Question: {questionNr} / {totalQuestions}
       </p>
       <p dangerouslySetInnerHTML={{ __html: question }} />
       <div>
-        {/* {answers.map(answer => (
-        <div key={answer}>
-          <button disabled={userAnswer} value={answer} onClick={callback}>
-            <span dangerouslySetInnerHTML={{ __html: answer }} />
-          </button>
-        </div>
-      ))} */}
         {Object.entries(answers).map(
           answer =>
             answer[1] && (
-              <div key={answer[0]}>
-                <button disabled={userAnswer} value={answer[1]} onClick={callback}>
+              <ButtonWrapper key={answer[0]} correct={correct} userClicked={isClicked}>
+                <button id={answer[0]} disabled={!!userAnswer} value={answer[1]} onClick={callback}>
                   <span dangerouslySetInnerHTML={{ __html: answer[1] }} />
                 </button>
-              </div>
+              </ButtonWrapper>
             )
         )}
       </div>
-    </div>
+    </Wrapper>
   );
 };
 
